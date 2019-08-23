@@ -6,20 +6,18 @@
 }
 
 .container-button {
-  margin: 20px;
   display: flex;
-  justify-content: space-around;
-  flex-direction: column;
-  align-items:center;
-
+  justify-content: center;
+  align-items: center;
 }
 img {
   display:block;
-  text-align: center;
-  align-items:center;
+  /* text-align: center;
+  align-items:center; */
   /* margin-left: 20%; */
-  margin-top:10%;
+  margin-top:5%;
 }
+
 h1 {
 	display: flex;
   margin-top: 0%;
@@ -32,4 +30,11 @@ h1 {
 }
 .alive {
   height: 350px;
+}
+#chart {
+
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
+
 }
