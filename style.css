@@ -12,29 +12,22 @@
 }
 img {
   display:block;
-  /* text-align: center;
-  align-items:center; */
-  /* margin-left: 20%; */
   margin-top:5%;
 }
 
 h1 {
 	display: flex;
   margin-top: 0%;
-  /* margin-left: 15%; */
 	align-self: center;
 	position: absolute;
 	font: 40px Helvetica, Sans-Serif;
 	letter-spacing: -5px;
-	color: rgba(0,0,255,0.5);
+	color:#D8E3B4;
 }
 .alive {
   height: 350px;
 }
 #chart {
-
-  margin: 0px;
-  display: flex;
-  flex-direction: column;
-
+  margin-right: 60%;
+  margin-top: -25%;
 }
