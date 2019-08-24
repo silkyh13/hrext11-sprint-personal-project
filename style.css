@@ -31,3 +31,8 @@ h1 {
   margin-right: 60%;
   margin-top: -25%;
 }
+.container-character {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
