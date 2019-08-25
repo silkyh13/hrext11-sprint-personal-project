@@ -28,11 +28,15 @@ h1 {
   height: 350px;
 }
 #chart {
-  margin-right: 60%;
-  margin-top: -25%;
+  margin: 0px;
+  display: wrap;
+  /* flex-direction: column; */
+  justify-content: flex-start;
 }
 .container-character {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+

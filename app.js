@@ -4,11 +4,17 @@ $(document).ready(() => {
     //if the thing i click on has class character buttons
     if ($(event.target).hasClass("input-button character")) {
       let character = $(event.target).attr('id');//Hello Kitty
+      let obj ={
+        Charlie : { "alive": "Alive.png", "dead": "Dead.png"},
+        HelloKitty : { "alive": "HelloKittyAlive.png", "dead": "HelloKittyDead.png"},
+        Pikachu : {"alive": "AlivePikachu.png", "dead": "DeadPikachu.png"}
+      };
         if (JSON.parse(localStorage.getItem(`${character}`)) !==null){
           alert("has key already")
-          return
+          return;
         }
         localStorage.setItem(`${character}`, true);
+        $(".alive").attr("src",obj[character].alive);
 
         let data = [
           ['happiness', 10],
@@ -16,9 +22,10 @@ $(document).ready(() => {
         ];
         //charlie = data
         //Parse get item Charlie = data
+        let hold = `${character} awaits`
         function render() {
           chart.load({
-            columns: JSON.parse(localStorage.getItem(`${character} awaits`))
+            columns: JSON.parse(localStorage.getItem(hold))
           });
         }
 
@@ -41,34 +48,93 @@ $(document).ready(() => {
           }
         });
 
-        var resuscitate = function(key, value) {
+        let resuscitate = function(key, value) {
           data = [
             ['happiness', 10],
             ['unhappiness', 0]
           ];
-
-          localStorage.setItem(`${character} awaits`, JSON.stringify(data));
-          data = JSON.parse(localStorage.getItem(`${character} awaits`))
+          // console.log(JSON.parse(localStorage.getItem(hold))[0][1] )
+          // if (JSON.parse(localStorage.getItem(hold))[0][1] === 0) {
+          //   // console.log(JSON.parse(localStorage.getItem(hold))[0][1])
+          //   alert(`hi`)
+          //   return;
+          // }
+          localStorage.setItem(hold, JSON.stringify(data));
+          data = JSON.parse(localStorage.getItem(hold))
           render();
         }
         $('.resuscitate').click(resuscitate);
 
-        var timeIsTicking = setInterval(function() {
+        let timeIsTicking = setInterval(function() {
           // data[1][1]  = unhappiness
-          var parseData = JSON.parse(localStorage.getItem(`${character} awaits`))
+          let parseData = JSON.parse(localStorage.getItem(hold))
           if (parseData[0][1] > 0) {
+            // console.log(obj[character].alive)
             parseData[0][1]--
             parseData[1][1]++
-            localStorage.setItem(`${character} awaits`, JSON.stringify(parseData))
+            localStorage.setItem(hold, JSON.stringify(parseData))
             chart.load({
-              columns: JSON.parse(localStorage.getItem(`${character} awaits`)),
+              columns: JSON.parse(localStorage.getItem(hold)),
             });
           }else if (parseData[1][1] ===10){
             clearInterval(timeIsTicking);
-            $(".alive").attr("src","Dead.png");
+            $(".alive").attr("src", obj[character].dead);
           }
 
         }, 2000);
+
+        let encourage = function(key, value) {
+          let parseData = JSON.parse(localStorage.getItem(hold));
+          //turn into workable object
+          if (parseData[0][1]> 0 && parseData[0][1]< 10){
+            parseData[0][1]++
+            parseData[1][1]--
+          }
+          localStorage.setItem(hold, JSON.stringify(parseData));
+          render();
+
+        }
+        $('.encourage').click(encourage);
+
+
+        let discourage= function(key, value) {
+          let parseData = JSON.parse(localStorage.getItem(hold));
+          //turn into workable object
+          if (parseData[0][1]> 0 && parseData[0][1]< 10){
+            parseData[0][1]--
+            parseData[1][1]++
+          }
+          localStorage.setItem(hold, JSON.stringify(parseData));
+          render();
+        }
+        $('.discourage').click(discourage);
+
+
+        let resurrect = function() {
+          data = [
+            ['happiness', 10],
+            ['unhappiness', 0]
+          ];
+          localStorage.setItem(hold, JSON.stringify(data));
+          data = JSON.parse(localStorage.getItem(hold))
+          render();
+          var timeIsTicking = setInterval(function() {
+            var parseData = JSON.parse(localStorage.getItem(hold))
+            if (parseData[0][1] <= 10 && parseData[0][1] >= 1) {
+              $(".alive").attr("src",obj[character].alive);
+              parseData[0][1]--
+              parseData[1][1]++
+              localStorage.setItem(hold, JSON.stringify(parseData))
+              chart.load({
+                columns: JSON.parse(localStorage.getItem(hold)),
+              });
+            } else if (parseData[1][1] === 10) {
+              clearInterval(timeIsTicking);
+              $(".alive").attr("src", obj[character].dead);
+            }
+          }, 2000);
+        }
+        $('.resurrect').click(resurrect);
 
     }
 
@@ -78,58 +144,3 @@ $(document).ready(() => {
 });
 
 
-// var encourage = function(key, value) {
-//   var parseData = JSON.parse(localStorage.getItem(`${character} char`));
-//   //turn into workable object
-//   if (parseData[0][1]> 0 && parseData[0][1]< 10){
-//     parseData[0][1]++
-//     parseData[1][1]--
-//   }
-//   localStorage.setItem(`${character} char`, JSON.stringify(parseData));
-//   render();
-
-// }
-// $('.encourage').click(encourage);
-
-
-// var discourage= function(key, value) {
-//   var parseData = JSON.parse(localStorage.getItem(`${character} char`));
-//   //turn into workable object
-//   if (parseData[0][1]> 0 && parseData[0][1]< 10){
-//     parseData[0][1]--
-//     parseData[1][1]++
-//   }
-//   localStorage.setItem(`${character} char`, JSON.stringify(parseData));
-//   render();
-// }
-// $('.discourage').click(discourage);
-
-
-// var resurrect = function() {
-//   data = [
-//     ['happiness', 10],
-//     ['unhappiness', 0]
-//   ];
-//   localStorage.setItem(`${character} char`, JSON.stringify(data));
-//   data = JSON.parse(localStorage.getItem(`${character} char`))
-//   $(".alive").attr("src", "Alive.png");
-//   render();
-//   var timeIsTicking = setInterval(function() {
-//     var parseData = JSON.parse(localStorage.getItem(`${character} char`))
-//     if (parseData[0][1] <= 10 && parseData[0][1] >= 1) {
-//       parseData[0][1]--
-//       parseData[1][1]++
-//       localStorage.setItem(`${character} char`, JSON.stringify(parseData))
-//       chart.load({
-//         columns: JSON.parse(localStorage.getItem(`${character} char`)),
-//       });
-//     } else if (parseData[1][1] === 10) {
-//       clearInterval(timeIsTicking);
-//       $(".alive").attr("src", "Dead.png");
-//     }
-
-//   }, 2000);
-// }
-
-
-// $('.resurrect').click(resurrect);
