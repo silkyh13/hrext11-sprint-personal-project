@@ -10,11 +10,13 @@ $(document).ready(() => {
         Pikachu : {"alive": "AlivePikachu.png", "dead": "DeadPikachu.png"}
       };
         if (JSON.parse(localStorage.getItem(`${character}`)) !==null){
-          alert("has key already")
+          // alert("has key already")
+          // localStorage.clear();
           return;
         }
+        localStorage.clear();
         localStorage.setItem(`${character}`, true);
-        $(".alive").attr("src",obj[character].alive);
+        $(".alive").attr("src",obj[character].dead);
 
         let data = [
           ['happiness', 10],
@@ -49,16 +51,16 @@ $(document).ready(() => {
         });
 
         let resuscitate = function(key, value) {
+          // localStorage.clear();
           data = [
             ['happiness', 10],
             ['unhappiness', 0]
           ];
           // console.log(JSON.parse(localStorage.getItem(hold))[0][1] )
-          // if (JSON.parse(localStorage.getItem(hold))[0][1] === 0) {
-          //   // console.log(JSON.parse(localStorage.getItem(hold))[0][1])
-          //   alert(`hi`)
-          //   return;
-          // }
+          if (JSON.parse(localStorage.getItem(hold)) && JSON.parse(localStorage.getItem(hold))[0][1] === 0) {
+
+            return;
+          }
           localStorage.setItem(hold, JSON.stringify(data));
           data = JSON.parse(localStorage.getItem(hold))
           render();
@@ -69,7 +71,7 @@ $(document).ready(() => {
           // data[1][1]  = unhappiness
           let parseData = JSON.parse(localStorage.getItem(hold))
           if (parseData[0][1] > 0) {
-            // console.log(obj[character].alive)
+            $(".alive").attr("src",obj[character].alive);
             parseData[0][1]--
             parseData[1][1]++
             localStorage.setItem(hold, JSON.stringify(parseData))
@@ -110,31 +112,12 @@ $(document).ready(() => {
         $('.discourage').click(discourage);
 
 
-        let resurrect = function() {
-          data = [
-            ['happiness', 10],
-            ['unhappiness', 0]
-          ];
-          localStorage.setItem(hold, JSON.stringify(data));
-          data = JSON.parse(localStorage.getItem(hold))
-          render();
-          var timeIsTicking = setInterval(function() {
-            var parseData = JSON.parse(localStorage.getItem(hold))
-            if (parseData[0][1] <= 10 && parseData[0][1] >= 1) {
-              $(".alive").attr("src",obj[character].alive);
-              parseData[0][1]--
-              parseData[1][1]++
-              localStorage.setItem(hold, JSON.stringify(parseData))
-              chart.load({
-                columns: JSON.parse(localStorage.getItem(hold)),
-              });
-            } else if (parseData[1][1] === 10) {
-              clearInterval(timeIsTicking);
-              $(".alive").attr("src", obj[character].dead);
-            }
-          }, 2000);
+
+        let reset= function(key, value) {
+          localStorage.clear();
+
         }
-        $('.resurrect').click(resurrect);
+        $('.reset').click(reset);
 
     }
 
@@ -144,3 +127,29 @@ $(document).ready(() => {
 });
 
 
+// let resurrect = function() {
+//   // localStorage.clear();
+//   data = [
+//     ['happiness', 10],
+//     ['unhappiness', 0]
+//   ];
+//   localStorage.setItem(hold, JSON.stringify(data));
+//   // data = JSON.parse(localStorage.getItem(hold))
+//   render();
+//   var timeIsTicking = setInterval(function() {
+//     var parseData = JSON.parse(localStorage.getItem(hold))
+//     if (parseData[0][1] <= 10 && parseData[0][1] >= 1) {
+//       $(".alive").attr("src",obj[character].alive);
+//       parseData[0][1]--
+//       parseData[1][1]++
+//       localStorage.setItem(hold, JSON.stringify(parseData))
+//       chart.load({
+//         columns: JSON.parse(localStorage.getItem(hold)),
+//       });
+//     } else if (parseData[1][1] === 10) {
+//       clearInterval(timeIsTicking);
+//       $(".alive").attr("src", obj[character].dead);
+//     }
+//   }, 2000);
+// }
+// $('.resurrect').click(resurrect);
