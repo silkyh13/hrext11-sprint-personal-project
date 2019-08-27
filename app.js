@@ -1,5 +1,5 @@
 $(document).ready(() => {
-
+  let currentCharacter
   let obj ={
     Charlie : { "alive": "Alive.png", "dead": "Dead.png"},
     HelloKitty : { "alive": "HelloKittyAlive.png", "dead": "HelloKittyDead.png"},
@@ -8,13 +8,14 @@ $(document).ready(() => {
   // start of Charlie
   $( '.container-character' ).on( "click", function(event) {
     if ($(event.target).hasClass("Charlie")) {
+      currentCharacter = "Charlie"
       var data = [
         ['happiness', 10],
         ['unhappiness', 0]
       ];
       function render() {
         chart.load({
-          columns: JSON.parse(localStorage.getItem("Charlie"))
+          columns: JSON.parse(localStorage.getItem(currentCharacter))
         });
       }
       var chart = c3.generate({
@@ -41,41 +42,47 @@ $(document).ready(() => {
           ['happiness', 10],
           ['unhappiness', 0]
         ];
-        if (JSON.parse(localStorage.getItem("Charlie")) && JSON.parse(localStorage.getItem("Charlie"))[0][1] === 0) {
+        if (JSON.parse(localStorage.getItem(currentCharacter)) && JSON.parse(localStorage.getItem(currentCharacter))[0][1] === 0) {
           alert("Charlie is dead already.")
+          localStorage.removeItem(currentCharacter);
+          console.log(currentCharacter);
           return;
         }
-        localStorage.setItem("Charlie", JSON.stringify(data));
-        data = JSON.parse(localStorage.getItem("Charlie"))
+        localStorage.removeItem(currentCharacter);
+        alert("WARNING: DO NOT RESUSCITATE HIM IF HE'S DEAD OR BE PREPARED...")
+        localStorage.setItem(currentCharacter, JSON.stringify(data));
+        data = JSON.parse(localStorage.getItem(currentCharacter))
         render();
       }
       $('.resuscitate').click(resuscitate);
 // timeIsTicking~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       let timeIsTicking = setInterval(function() {
         // data[1][1]  = unhappiness
-        let parseData = JSON.parse(localStorage.getItem("Charlie"))
+        let parseData = JSON.parse(localStorage.getItem(currentCharacter))
         if (parseData[0][1] > 0) {
           $(".alive").attr("src",obj.Charlie.alive);
           parseData[0][1]--
           parseData[1][1]++
-          localStorage.setItem("Charlie", JSON.stringify(parseData))
+          localStorage.setItem(currentCharacter, JSON.stringify(parseData))
           chart.load({
-            columns: JSON.parse(localStorage.getItem("Charlie")),
+            columns: JSON.parse(localStorage.getItem(currentCharacter)),
           });
         }else if (parseData[1][1] ===10){
           clearInterval(timeIsTicking);
           $(".alive").attr("src", obj.Charlie.dead);
+          localStorage.removeItem(currentCharacter);
         }
+
       }, 2000);
 // encourage~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         let encourage = function(key, value) {
-          let parseData = JSON.parse(localStorage.getItem("Charlie"));
+          let parseData = JSON.parse(localStorage.getItem(currentCharacter));
           //turn into workable object
           if (parseData[0][1]> 0 && parseData[0][1]< 10){
             parseData[0][1]++
             parseData[1][1]--
           }
-          localStorage.setItem("Charlie", JSON.stringify(parseData));
+          localStorage.setItem(currentCharacter, JSON.stringify(parseData));
           render();
 
         }
@@ -83,36 +90,36 @@ $(document).ready(() => {
 // discourage~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         let discourage= function(key, value) {
           // console.log(character)
-          let parseData = JSON.parse(localStorage.getItem("Charlie"));
+          let parseData = JSON.parse(localStorage.getItem(currentCharacter));
           //turn into workable object
           if (parseData[0][1]> 0 && parseData[0][1]< 10){
             parseData[0][1]--;
             parseData[1][1]++;
           }
-          localStorage.setItem("Charlie", JSON.stringify(parseData));
+          localStorage.setItem(currentCharacter, JSON.stringify(parseData));
           render();
         }
         $('.discourage').click(discourage);
 // resurrect~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         let resurrect = function() {
-          // localStorage.clear();
+
           data = [
             ['happiness', 10],
             ['unhappiness', 0]
           ];
-          localStorage.setItem("Charlie", JSON.stringify(data));
+          localStorage.setItem(currentCharacter, JSON.stringify(data));
           // data = JSON.parse(localStorage.getItem(hold))
           render();
           let timeIsTicking = setInterval(function() {
             // data[1][1]  = unhappiness
-            let parseData = JSON.parse(localStorage.getItem("Charlie"))
+            let parseData = JSON.parse(localStorage.getItem(currentCharacter))
             if (parseData[0][1] > 0) {
               $(".alive").attr("src",obj.Charlie.alive);
               parseData[0][1]--
               parseData[1][1]++
-              localStorage.setItem("Charlie", JSON.stringify(parseData))
+              localStorage.setItem(currentCharacter, JSON.stringify(parseData))
               chart.load({
-                columns: JSON.parse(localStorage.getItem("Charlie")),
+                columns: JSON.parse(localStorage.getItem(currentCharacter)),
               });
             }else if (parseData[1][1] ===10){
               clearInterval(timeIsTicking);
@@ -124,6 +131,136 @@ $(document).ready(() => {
     }
   });
   // end of Charlie
+
+  // start of HelloKitty
+  $( '.container-character' ).on( "click", function(event) {
+    if ($(event.target).hasClass("HelloKitty")) {
+      localStorage.clear()
+      currentCharacter = "HelloKitty"
+      var data = [
+        ['happiness', 10],
+        ['unhappiness', 0]
+      ];
+      function render() {
+        chart.load({
+          columns: JSON.parse(localStorage.getItem(currentCharacter))
+        });
+      }
+      var chart = c3.generate({
+        bindto: '#chart',
+        data: {
+            columns: data,
+            type : 'pie',
+            colors: {
+              happiness:'#FBB13C',
+              unhappiness: '#287E9D'
+          },
+        },
+        pie: {
+          label: {
+            format: function (value, ratio, id) {
+                return value;
+            }
+        }
+        }
+      });
+      // resuscitate~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+      // var resuscitate = function(key, value) {
+      //   data = [
+      //     ['happiness', 10],
+      //     ['unhappiness', 0]
+      //   ];
+      //   if (JSON.parse(localStorage.getItem(currentCharacter)) && JSON.parse(localStorage.getItem(currentCharacter))[0][1] === 0) {
+      //     alert("Hello Kitty is dead already.")
+      //     localStorage.removeItem(currentCharacter);
+      //     return;
+      //   }
+      //   alert("WARNING: DO NOT RESUSCITATE HER IF HE'S DEAD OR BE PREPARED...")
+      //   localStorage.setItem(currentCharacter, JSON.stringify(data));
+      //   data = JSON.parse(localStorage.getItem(currentCharacter))
+      //   render();
+      // }
+      // $('.resuscitate').click(resuscitate);
+
+// timeIsTicking~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      let timeIsTicking = setInterval(function() {
+        // data[1][1]  = unhappiness
+        let parseData = JSON.parse(localStorage.getItem(currentCharacter))
+        if (parseData[0][1] > 0) {
+          $(".alive").attr("src",obj.HelloKitty.alive);
+          parseData[0][1]--
+          parseData[1][1]++
+          localStorage.setItem(currentCharacter, JSON.stringify(parseData))
+          chart.load({
+            columns: JSON.parse(localStorage.getItem(currentCharacter)),
+          });
+        }else if (parseData[1][1] ===10){
+          clearInterval(timeIsTicking);
+          $(".alive").attr("src", obj.HelloKitty.dead);
+        }
+      }, 2000);
+// encourage~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        // let encourage = function(key, value) {
+        //   let parseData = JSON.parse(localStorage.getItem(currentCharacter));
+        //   //turn into workable object
+        //   if (parseData[0][1]> 0 && parseData[0][1]< 10){
+        //     parseData[0][1]++
+        //     parseData[1][1]--
+        //   }
+        //   localStorage.setItem(currentCharacter, JSON.stringify(parseData));
+        //   render();
+
+        // }
+        // $('.encourage').click(encourage);
+
+// discourage~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        // let discourage= function(key, value) {
+        //   // console.log(character)
+        //   let parseData = JSON.parse(localStorage.getItem(currentCharacter));
+        //   //turn into workable object
+        //   if (parseData[0][1]> 0 && parseData[0][1]< 10){
+        //     parseData[0][1]--;
+        //     parseData[1][1]++;
+        //   }
+        //   localStorage.setItem(currentCharacter, JSON.stringify(parseData));
+        //   render();
+        // }
+        // $('.discourage').click(discourage);
+
+// resurrect~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        let resurrect = function() {
+          // localStorage.clear();
+          data = [
+            ['happiness', 10],
+            ['unhappiness', 0]
+          ];
+          localStorage.setItem(currentCharacter, JSON.stringify(data));
+          // data = JSON.parse(localStorage.getItem(hold))
+          render();
+          let timeIsTicking = setInterval(function() {
+            // data[1][1]  = unhappiness
+            let parseData = JSON.parse(localStorage.getItem(currentCharacter))
+            if (parseData[0][1] > 0) {
+              $(".alive").attr("src",obj.HelloKitty.alive);
+              parseData[0][1]--
+              parseData[1][1]++
+              localStorage.setItem(currentCharacter, JSON.stringify(parseData))
+              chart.load({
+                columns: JSON.parse(localStorage.getItem(currentCharacter)),
+              });
+            }else if (parseData[1][1] ===10){
+              clearInterval(timeIsTicking);
+              $(".alive").attr("src", obj.HelloKitty.dead);
+            }
+          }, 2000);
+        }
+        $('.resurrect').click(resurrect);
+    }
+  });
+  // end of HelloKitty
 
 
 });
