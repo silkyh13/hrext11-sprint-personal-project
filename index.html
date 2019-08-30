@@ -3,36 +3,41 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.21/c3.css">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <script src="jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.21/c3.js"></script>
 </head>
 ​
 <body>
+
     <div class="container-everything">
         <h1 >Broken Dreams</h1>
+        <div id="chart"></div>
         <!-- images -->
+        <img src="pictures/ladybug.png" alt="image" class="reaper" style="height:600px;display:none;" />
+        <img src="pictures/HealAll.png" alt="image" class="BTS" style="height:600px;display:none;" />
         <div class ="image-container"></div>
-            <img src="Dead.png" alt="image" class="alive" />
+            <img src="pictures/Alive.png" alt="image" class="alive" />
+
         </div>
         <!-- buttons -->
+        <div class="container-character">
+                <input class="input-button character" id="Charlie"type="button" value="Charlie" style="width:80px">
+                <input class="input-button character" id="HelloKitty" type="button" value="Hello Kitty" style="width:80px">
+                <input class="input-button character" id="Pikachu" type="button" value="Pikachu" style="width:80px">
+                <input class="input-button character" id="Dexter" type="button" value="Dexter" style="width:80px">
+            </div>
     ​    <div class="container-button">
             <input class="input-button resuscitate" type="button" value="Resuscitate" style="width:100px">
             <input class="input-button encourage" type="button" value="Encourage" style="width:100px">
             <input class="input-button discourage" type="button" value="Discourage" style="width:100px">
             <input class="input-button resurrect" type="button" value="Resurrect" style="width:100px">
         </div>
-        <div class="container-character">
-            <input class="input-button character" id="Charlie"type="button" value="Charlie" style="width:80px">
-            <input class="input-button character" id="HelloKitty" type="button" value="Hello Kitty" style="width:80px">
-            <input class="input-button character" id="Pikachu" type="button" value="Pikachu" style="width:80px">
-            <!-- <input class="input-button reset" id="reset"type="button" value="Reset" style="width:80px"> -->
-        </div>
+
 
     </div>
-    <div id="chart"></div>
 
-    <script src="app.js"></script>
+    <script src="app/app.js"></script>
 </body>
 </html>

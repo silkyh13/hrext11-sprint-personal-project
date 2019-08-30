@@ -1,0 +1,86 @@
+.container-everything {
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position:absolute;
+  right: 500px;
+  top: 481px;
+}
+.container-character {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 550px;
+  top: 500px;
+}
+.reaper {
+  position:absolute;
+  top:50px;
+  z-index: 2;
+}
+.BTS {
+  position:absolute;
+  top:50px;
+  z-index: 2;
+}
+.alive {
+  height: 350px;
+  position:absolute;
+  top: 100px;
+  z-index: 1;
+}
+
+h1 {
+	display: flex;
+  margin-top: 0%;
+	align-self: center;
+	position: absolute;
+	font: 40px Helvetica, Sans-Serif;
+	letter-spacing: -5px;
+	color:#D8E3B4;
+}
+/* .alive {
+  height: 350px;
+  position:relative;
+} */
+#chart {
+  /* max-height: 320px; */
+  position: absolute;
+  top: 120px;
+  right: 350px;
+}
+/* .container-character {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 550px;
+  top: 481px;
+} */
+
+
+/*
+.container-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position:absolute;
+  right: 500px;
+  top: 481px;
+}
+.container-character {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 550px;
+  top: 500px;
+} */
